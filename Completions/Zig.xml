@@ -5,7 +5,7 @@
       
       <exclude-selector>string, comment</exclude-selector>
       
-      <expression>(?:(?&lt;!\.)\b([a-zA-Z_][a-zA-Z0-9_]*))|(?:(?&lt;![a-zA-Z0-9_\.]))</expression>
+      <expression>(?:(?&lt;![.@])\b([a-zA-Z_][a-zA-Z0-9_]*))|(?:(?&lt;![a-zA-Z0-9_\.]))</expression>
       
       <symbols type="function">
           <behavior>
@@ -14,7 +14,553 @@
       </symbols>
       <symbols type="class" />
       <symbols type="variable,constant" />
-      
-      <identifiers />
   </provider>
+  
+  <provider name="zig.builtins">
+    <syntax>zig</syntax>
+    
+    <exclude-selector>string, comment</exclude-selector>
+    
+    <expression>(?&lt;![.a-zA-Z_0-9])(@[a-zA-Z0-9_]*)</expression>
+    
+    <set>zig.builtins</set>
+  </provider>
+  
+  <set name="zig.builtins">
+    <completion string="@addWithOverflow">
+      <behavior>
+        <append>($[T], $[a], $[b], $[result])</append>
+      </behavior>
+    </completion>
+    <completion string="@alignCast">
+      <behavior>
+        <append>($[alignment], $[ptr])</append>
+      </behavior>
+    </completion>
+    <completion string="@alignOf">
+      <behavior>
+        <append>($[T])</append>
+      </behavior>
+    </completion>
+    <completion string="@as">
+      <behavior>
+        <append>($[T], $[expression])</append>
+      </behavior>
+    </completion>
+    <completion string="@asyncCall">
+      <behavior>
+        <append>($[frame_buffer], $[result_ptr], $[function_ptr], $[args])</append>
+      </behavior>
+    </completion>
+    <completion string="@atomicLoad">
+      <behavior>
+        <append>($[T], $[ptr], $[ordering])</append>
+      </behavior>
+    </completion>
+    <completion string="@atomicRmw">
+      <behavior>
+        <append>($[T], $[ptr], $[op], $[operand], $[ordering])</append>
+      </behavior>
+    </completion>
+    <completion string="@atomicStore">
+      <behavior>
+        <append>($[T], $[ptr], $[value], $[ordering])</append>
+      </behavior>
+    </completion>
+    <completion string="@bitCast">
+      <behavior>
+        <append>($[DestType], $[value])</append>
+      </behavior>
+    </completion>
+    <completion string="@bitOffsetOf">
+      <behavior>
+        <append>($[T], $[field_name])</append>
+      </behavior>
+    </completion>
+    <completion string="@boolToInt">
+      <behavior>
+        <append>($[value])</append>
+      </behavior>
+    </completion>
+    <completion string="@bitSizeOf">
+      <behavior>
+        <append>($[T])</append>
+      </behavior>
+    </completion>
+    <completion string="@breakpoint">
+      <behavior>
+        <append>()</append>
+      </behavior>
+    </completion>
+    <completion string="@mulAdd">
+      <behavior>
+        <append>($[T], $[a], $[b], $[c])</append>
+      </behavior>
+    </completion>
+    <completion string="@byteSwap">
+      <behavior>
+        <append>($[T], $[operand])</append>
+      </behavior>
+    </completion>
+    <completion string="@bitReverse">
+      <behavior>
+        <append>($[T], $[integer])</append>
+      </behavior>
+    </completion>
+    <completion string="@offsetOf">
+      <behavior>
+        <append>($[T], $[field_name])</append>
+      </behavior>
+    </completion>
+    <completion string="@call">
+      <behavior>
+        <append>($[options], $[function], $[args])</append>
+      </behavior>
+    </completion>
+    <completion string="@cDefine">
+      <behavior>
+        <append>($[name], $[value])</append>
+      </behavior>
+    </completion>
+    <completion string="@cImport">
+      <behavior>
+        <append>($[expression])</append>
+      </behavior>
+    </completion>
+    <completion string="@cInclude">
+      <behavior>
+        <append>($[path])</append>
+      </behavior>
+    </completion>
+    <completion string="@clz">
+      <behavior>
+        <append>($[T], $[operand])</append>
+      </behavior>
+    </completion>
+    <completion string="@cmpxchgStrong">
+      <behavior>
+        <append>($[T], $[ptr], $[expected_value], $[new_value], $[success_order], $[fail_order])</append>
+      </behavior>
+    </completion>
+    <completion string="@cmpxchgWeak">
+      <behavior>
+        <append>($[T], $[ptr], $[expected_value], $[new_value], $[success_order], $[fail_order])</append>
+      </behavior>
+    </completion>
+    <completion string="@compileError">
+      <behavior>
+        <append>($[msg])</append>
+      </behavior>
+    </completion>
+    <completion string="@compileLog">
+      <behavior>
+        <append>($[args])</append>
+      </behavior>
+    </completion>
+    <completion string="@ctz">
+      <behavior>
+        <append>($[T], $[operand])</append>
+      </behavior>
+    </completion>
+    <completion string="@cUndef">
+      <behavior>
+        <append>($[name])</append>
+      </behavior>
+    </completion>
+    <completion string="@divExact">
+      <behavior>
+        <append>($[numerator], $[denominator])</append>
+      </behavior>
+    </completion>
+    <completion string="@divFloor">
+      <behavior>
+        <append>($[numerator], $[denominator])</append>
+      </behavior>
+    </completion>
+    <completion string="@divTrunc">
+      <behavior>
+        <append>($[numerator], $[denominator])</append>
+      </behavior>
+    </completion>
+    <completion string="@embedFile">
+      <behavior>
+        <append>($[name])</append>
+      </behavior>
+    </completion>
+    <completion string="@enumToInt">
+      <behavior>
+        <append>($[enum_or_tagged_union])</append>
+      </behavior>
+    </completion>
+    <completion string="@errorName">
+      <behavior>
+        <append>($[err])</append>
+      </behavior>
+    </completion>
+    <completion string="@errorReturnTrace">
+      <behavior>
+        <append>()</append>
+      </behavior>
+    </completion>
+    <completion string="@errorToInt">
+      <behavior>
+        <append>($[err])</append>
+      </behavior>
+    </completion>
+    <completion string="@errSetCast">
+      <behavior>
+        <append>($[T], $[value])</append>
+      </behavior>
+    </completion>
+    <completion string="@export">
+      <behavior>
+        <append>($[declaration], $[options])</append>
+      </behavior>
+    </completion>
+    <completion string="@extern">
+      <behavior>
+        <append>($[T], $[options])</append>
+      </behavior>
+    </completion>
+    <completion string="@fence">
+      <behavior>
+        <append>($[order])</append>
+      </behavior>
+    </completion>
+    <completion string="@field">
+      <behavior>
+        <append>($[lhs], $[field_name])</append>
+      </behavior>
+    </completion>
+    <completion string="@fieldParentPtr">
+      <behavior>
+        <append>($[ParentType], $[field_name], $[field_ptr])</append>
+      </behavior>
+    </completion>
+    <completion string="@floatCast">
+      <behavior>
+        <append>($[DestType], $[value])</append>
+      </behavior>
+    </completion>
+    <completion string="@floatToInt">
+      <behavior>
+        <append>($[DestType], $[float])</append>
+      </behavior>
+    </completion>
+    <completion string="@frame">
+      <behavior>
+        <append>()</append>
+      </behavior>
+    </completion>
+    <completion string="@Frame">
+      <behavior>
+        <append>($[func])</append>
+      </behavior>
+    </completion>
+    <completion string="@frameAddress">
+      <behavior>
+        <append>()</append>
+      </behavior>
+    </completion>
+    <completion string="@frameSize">
+      <behavior>
+        <append>()</append>
+      </behavior>
+    </completion>
+    <completion string="@hasDecl">
+      <behavior>
+        <append>($[Container], $[name])</append>
+      </behavior>
+    </completion>
+    <completion string="@hasField">
+      <behavior>
+        <append>($[Container], $[name])</append>
+      </behavior>
+    </completion>
+    <completion string="@import">
+      <behavior>
+        <append>($[path])</append>
+      </behavior>
+    </completion>
+    <completion string="@intCast">
+      <behavior>
+        <append>($[DestType], $[int])</append>
+      </behavior>
+    </completion>
+    <completion string="@intToEnum">
+      <behavior>
+        <append>($[DestType], $[integer])</append>
+      </behavior>
+    </completion>
+    <completion string="@intToError">
+      <behavior>
+        <append>($[value])</append>
+      </behavior>
+    </completion>
+    <completion string="@intToFloat">
+      <behavior>
+        <append>($[DestType], $[int])</append>
+      </behavior>
+    </completion>
+    <completion string="@intToPtr">
+      <behavior>
+        <append>($[DestType], $[address])</append>
+      </behavior>
+    </completion>
+    <completion string="@maximum">
+      <behavior>
+        <append>($[a], $[b])</append>
+      </behavior>
+    </completion>
+    <completion string="@memcpy">
+      <behavior>
+        <append>($[dest], $[source], $[byte_count])</append>
+      </behavior>
+    </completion>
+    <completion string="@memset">
+      <behavior>
+        <append>($[dest], $[c], $[byte_count])</append>
+      </behavior>
+    </completion>
+    <completion string="@minimum">
+      <behavior>
+        <append>($[a], $[b])</append>
+      </behavior>
+    </completion>
+    <completion string="@wasmMemorySize">
+      <behavior>
+        <append>($[index])</append>
+      </behavior>
+    </completion>
+    <completion string="@wasmMemoryGrow">
+      <behavior>
+        <append>($[index], $[delta])</append>
+      </behavior>
+    </completion>
+    <completion string="@mod">
+      <behavior>
+        <append>($[numerator], $[denominator])</append>
+      </behavior>
+    </completion>
+    <completion string="@mulWithOverflow">
+      <behavior>
+        <append>($[T], $[a], $[b], $[result])</append>
+      </behavior>
+    </completion>
+    <completion string="@panic">
+      <behavior>
+        <append>($[message])</append>
+      </behavior>
+    </completion>
+    <completion string="@popCount">
+      <behavior>
+        <append>($[T], $[operand])</append>
+      </behavior>
+    </completion>
+    <completion string="@prefetch">
+      <behavior>
+        <append>($[ptr], $[options])</append>
+      </behavior>
+    </completion>
+    <completion string="@ptrCast">
+      <behavior>
+        <append>($[DestType], $[value])</append>
+      </behavior>
+    </completion>
+    <completion string="@ptrToInt">
+      <behavior>
+        <append>($[value])</append>
+      </behavior>
+    </completion>
+    <completion string="@rem">
+      <behavior>
+        <append>($[numerator], $[denominator])</append>
+      </behavior>
+    </completion>
+    <completion string="@returnAddress">
+      <behavior>
+        <append>()</append>
+      </behavior>
+    </completion>
+    <completion string="@select">
+      <behavior>
+        <append>($[T], $[pred], $[a], $[b])</append>
+      </behavior>
+    </completion>
+    <completion string="@setAlignStack">
+      <behavior>
+        <append>($[alignment])</append>
+      </behavior>
+    </completion>
+    <completion string="@setCold">
+      <behavior>
+        <append>($[is_cold])</append>
+      </behavior>
+    </completion>
+    <completion string="@setEvalBranchQuota">
+      <behavior>
+        <append>($[new_quota])</append>
+      </behavior>
+    </completion>
+    <completion string="@setFloatMode">
+      <behavior>
+        <append>($[mode])</append>
+      </behavior>
+    </completion>
+    <completion string="@setRuntimeSafety">
+      <behavior>
+        <append>($[safety_on])</append>
+      </behavior>
+    </completion>
+    <completion string="@shlExact">
+      <behavior>
+        <append>($[value], $[shift_amt])</append>
+      </behavior>
+    </completion>
+    <completion string="@shlWithOverflow">
+      <behavior>
+        <append>($[T], $[a], $[shift_amt], $[result])</append>
+      </behavior>
+    </completion>
+    <completion string="@shrExact">
+      <behavior>
+        <append>($[value], $[shift_amt])</append>
+      </behavior>
+    </completion>
+    <completion string="@shuffle">
+      <behavior>
+        <append>($[E], $[a], $[b], $[mask])</append>
+      </behavior>
+    </completion>
+    <completion string="@sizeOf">
+      <behavior>
+        <append>($[T])</append>
+      </behavior>
+    </completion>
+    <completion string="@splat">
+      <behavior>
+        <append>($[len], $[scalar])</append>
+      </behavior>
+    </completion>
+    <completion string="@reduce">
+      <behavior>
+        <append>($[op], $[value])</append>
+      </behavior>
+    </completion>
+    <completion string="@src">
+      <behavior>
+        <append>()</append>
+      </behavior>
+    </completion>
+    <completion string="@sqrt">
+      <behavior>
+        <append>($[value])</append>
+      </behavior>
+    </completion>
+    <completion string="@sin">
+      <behavior>
+        <append>($[value])</append>
+      </behavior>
+    </completion>
+    <completion string="@cos">
+      <behavior>
+        <append>($[value])</append>
+      </behavior>
+    </completion>
+    <completion string="@exp">
+      <behavior>
+        <append>($[value])</append>
+      </behavior>
+    </completion>
+    <completion string="@exp2">
+      <behavior>
+        <append>($[value])</append>
+      </behavior>
+    </completion>
+    <completion string="@log">
+      <behavior>
+        <append>($[value])</append>
+      </behavior>
+    </completion>
+    <completion string="@log2">
+      <behavior>
+        <append>($[value])</append>
+      </behavior>
+    </completion>
+    <completion string="@log10">
+      <behavior>
+        <append>($[value])</append>
+      </behavior>
+    </completion>
+    <completion string="@fabs">
+      <behavior>
+        <append>($[value])</append>
+      </behavior>
+    </completion>
+    <completion string="@floor">
+      <behavior>
+        <append>($[value])</append>
+      </behavior>
+    </completion>
+    <completion string="@ceil">
+      <behavior>
+        <append>($[value])</append>
+      </behavior>
+    </completion>
+    <completion string="@trunc">
+      <behavior>
+        <append>($[value])</append>
+      </behavior>
+    </completion>
+    <completion string="@round">
+      <behavior>
+        <append>($[value])</append>
+      </behavior>
+    </completion>
+    <completion string="@subWithOverflow">
+      <behavior>
+        <append>($[T], $[a], $[b], $[result])</append>
+      </behavior>
+    </completion>
+    <completion string="@tagName">
+      <behavior>
+        <append>($[value])</append>
+      </behavior>
+    </completion>
+    <completion string="@This">
+      <behavior>
+        <append>()</append>
+      </behavior>
+    </completion>
+    <completion string="@truncate">
+      <behavior>
+        <append>($[T], $[integer])</append>
+      </behavior>
+    </completion>
+    <completion string="@Type">
+      <behavior>
+        <append>($[info])</append>
+      </behavior>
+    </completion>
+    <completion string="@typeInfo">
+      <behavior>
+        <append>($[T])</append>
+      </behavior>
+    </completion>
+    <completion string="@typeName">
+      <behavior>
+        <append>($[T])</append>
+      </behavior>
+    </completion>
+    <completion string="@TypeOf">
+      <behavior>
+        <append>($[...])</append>
+      </behavior>
+    </completion>
+    <completion string="@unionInit">
+      <behavior>
+        <append>($[Union], $[active_field_name], $[init_expr])</append>
+      </behavior>
+    </completion>
+  </set>
 </completions>
