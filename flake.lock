@@ -1,0 +1,73 @@
+{
+  "nodes": {
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1666867875,
+        "narHash": "sha256-3nD7iQXd/J6KjkT8IjozTuA5p8qjiLKTxvOUmH+AzNM=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "c132d0837dfb9035701dcd8fc91786c605c855c3",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-22.05",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nova": {
+      "flake": false,
+      "locked": {
+        "narHash": "sha256-+Fyalty0qmN/sipAtavW5Z5bXEef4YBzNUHrzwxVGoU=",
+        "type": "tarball",
+        "url": "https://download.panic.com/nova/Nova%2010.zip"
+      },
+      "original": {
+        "type": "tarball",
+        "url": "https://download.panic.com/nova/Nova%2010.zip"
+      }
+    },
+    "root": {
+      "inputs": {
+        "nixpkgs": "nixpkgs",
+        "nova": "nova",
+        "tree-sitter-zig": "tree-sitter-zig",
+        "utils": "utils"
+      }
+    },
+    "tree-sitter-zig": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1665737528,
+        "narHash": "sha256-WLfecfqwCNh/IPPfmZ55XgsY6cLv62ad0Xhh9pUW3nw=",
+        "owner": "maxxnino",
+        "repo": "tree-sitter-zig",
+        "rev": "b1803f2a665d228f968a831eac4fcc07a377c7bc",
+        "type": "github"
+      },
+      "original": {
+        "owner": "maxxnino",
+        "repo": "tree-sitter-zig",
+        "type": "github"
+      }
+    },
+    "utils": {
+      "locked": {
+        "lastModified": 1659877975,
+        "narHash": "sha256-zllb8aq3YO3h8B/U0/J1WBgAL8EX5yWf5pMj3G0NAmc=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "c0e246b9b83f637f4681389ecabcb2681b4f3af0",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}
