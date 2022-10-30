@@ -1,17 +1,17 @@
 {
   inputs = {
-    nixpkgs.url = github:NixOS/nixpkgs/nixos-22.05;
+    nixpkgs.url     = github:NixOS/nixpkgs/nixos-22.05;
     tree-sitter-zig = {
-      url = github:maxxnino/tree-sitter-zig;
+      url   = github:maxxnino/tree-sitter-zig;
       flake = false;
     };
     utils.url = github:numtide/flake-utils;
-    nova = {
-      url = "https://download.panic.com/nova/Nova%2010.zip";
+    nova      = {
+      url   = "https://download.panic.com/nova/Nova%2010.zip";
       flake = false;
     };
     logo = {
-      url = github:ziglang/logo;
+      url   = github:ziglang/logo;
       flake = false;
     };
   };
@@ -23,8 +23,8 @@
   ] (system: let
     pkgs = nixpkgs.legacyPackages.${system};
     syntax-lib = pkgs.stdenvNoCC.mkDerivation {
-      name = "tree-sitter-zig-dylib";
-      src = tree-sitter-zig;
+      name       = "tree-sitter-zig-dylib";
+      src        = tree-sitter-zig;
       buildPhase = ''
         FRAMEWORKS_PATH="${nova}/Contents/Frameworks/"
         BUILD_FLAGS="-arch arm64 -arch x86_64 -mmacosx-version-min=11.0 -Isrc -Wall -Wextra"
@@ -40,29 +40,61 @@
     };
     
     version = "0.1.0";
-    meta = {
+    meta    = {
       description = "Zig language support";
-      homepage = "https://github.com/flyx";
-      license = nixpkgs.lib.licenses.mit;
+      homepage    = "https://github.com/flyx";
+      license     = nixpkgs.lib.licenses.mit;
       maintainers = [ "Felix Krause" ];
+    };
+    cfgPath     = isWorkspace: name: ("org.flyx.zig." + name + (if isWorkspace then "" else ".default"));
+    zlsSettings = isWorkspace: {
+      title       = "Language Server";
+      description = if isWorkspace then
+        "Path to ZLS language server (if set, overrides default)"
+      else
+        "Default settings for the ZLS language server (may be overridden per project)";
+      type     = "section";
+      children = [
+        ({
+          key     = cfgPath isWorkspace "zls.path";
+          title   = "Path to ZLS";
+          type    = "path";
+        } // (if isWorkspace then {} else {
+          default = "zls";
+        }))
+      ];
     };
   in {
     defaultPackage = pkgs.stdenv.mkDerivation {
-      pname = "Zig.novaextension";
+      pname   = "Zig.novaextension";
       version = "0.1.0";
-      src = self;
-      JSON = builtins.toJSON {
-        identifier = "org.flyx.Zig";
-        name = "zig";
-        organization = "Felix Krause";
-        description = meta.description;
+      src     = self;
+      JSON    = builtins.toJSON {
         inherit version;
-        categories = [ "languages" ];
+        identifier       = "org.flyx.Zig";
+        name             = "zig";
+        organization     = "Felix Krause";
+        description      = meta.description;
+        categories       = [ "languages" ];
+        config           = [ (zlsSettings false) ];
+        configWorkspace  = [ (zlsSettings true) ];
+        main             = "main.js";
+        bugs             = "https://github.com/flyx/NovaZig/issues";
+        repository       = "https://github.com/flyx/NovaZig";
+        funding          = "https://github.com/sponsors/flyx";
+        license          = "MIT";
+        activationEvents = [
+          "onLanguage:zig"
+          "onWorkspaceContains:*.zig"
+        ];
+        entitlements = {
+          process = true;
+        };
       };
       buildInputs = with pkgs; [ gnused librsvg ];
     installPhase = ''
       mkdir -p $out/Zig.novaextension/Queries
-      cp -r -t $out/Zig.novaextension Completions Syntaxes Queries CHANGELOG.md
+      cp -r -t $out/Zig.novaextension Completions Scripts Syntaxes Queries CHANGELOG.md
       cp README-user.md $out/Zig.novaextension/README.md
       cp ${syntax-lib} $out/Zig.novaextension/Syntaxes/libtree-sitter-zig.dylib
       printenv JSON >$out/Zig.novaextension/extension.json
