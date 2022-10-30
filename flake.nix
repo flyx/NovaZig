@@ -10,9 +10,13 @@
       url = "https://download.panic.com/nova/Nova%2010.zip";
       flake = false;
     };
+    logo = {
+      url = github:ziglang/logo;
+      flake = false;
+    };
   };
   outputs = {
-    self, nixpkgs, tree-sitter-zig, utils, nova
+    self, nixpkgs, tree-sitter-zig, utils, nova, logo
   }: utils.lib.eachSystem [
     utils.lib.system.x86_64-darwin
     utils.lib.system.aarch64-darwin
@@ -55,14 +59,16 @@
         inherit version;
         categories = [ "languages" ];
       };
-      buildInputs = [ pkgs.gnused ];
+      buildInputs = with pkgs; [ gnused librsvg ];
     installPhase = ''
       mkdir -p $out/Zig.novaextension/Queries
-      cp -r -t $out/Zig.novaextension Completions Syntaxes Images Queries CHANGELOG.md
+      cp -r -t $out/Zig.novaextension Completions Syntaxes Queries CHANGELOG.md
       cp README-user.md $out/Zig.novaextension/README.md
       cp ${syntax-lib} $out/Zig.novaextension/Syntaxes/libtree-sitter-zig.dylib
       printenv JSON >$out/Zig.novaextension/extension.json
       ${pkgs.gnused}/bin/sed 's/@fold/@subtree/g' ${tree-sitter-zig}/queries/folds.scm >$out/Zig.novaextension/Queries/folds.scm
+      ${pkgs.librsvg}/bin/rsvg-convert -w 16 -h 16 ${logo}/zig-mark.svg -o $out/Zig.novaextension/extension.png
+      ${pkgs.librsvg}/bin/rsvg-convert -w 32 -h 32 ${logo}/zig-mark.svg -o $out/Zig.novaextension/extension@2x.png
     '';
     };
   });

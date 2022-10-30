@@ -1,5 +1,21 @@
 {
   "nodes": {
+    "logo": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1641256905,
+        "narHash": "sha256-7uiTGBEVXRrzfs/QmrMAH4MYLQt/GgKt8IsakOcKQBc=",
+        "owner": "ziglang",
+        "repo": "logo",
+        "rev": "6446ba8e37a0651da720d8869e1ce9264fa0c0b9",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ziglang",
+        "repo": "logo",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1666867875,
@@ -30,6 +46,7 @@
     },
     "root": {
       "inputs": {
+        "logo": "logo",
         "nixpkgs": "nixpkgs",
         "nova": "nova",
         "tree-sitter-zig": "tree-sitter-zig",

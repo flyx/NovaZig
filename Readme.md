@@ -3,15 +3,18 @@
 This repository contains the Zig language extension for the [Nova][1] editor.
 
 This readme is developer documentation, refer to [REDAME-user.md](/README-user.md) for user documentation.
-Users should install this extension from the Nova extension gallery.
+Users should install this extension from the Nova extension gallery (yet to be released).
 
 ## Building & Testing
 
 This extension uses [tree-sitter-zig][2] and thus must compile the C code implementing the syntax.
-It uses [Nix Flakes][2] as build system.
+It uses [Nix Flakes][2] as build system, you'll also need the Xcode command line tools.
 To build the extension, do
 
-    nix build
+    nix build --impure
+
+We use `--impure` because the clang provided by Nixpkgs currently cannot build fat binaries.
+Therefore, we use the system-provided clang (hence the Xcode command line tools), which requires `--impure`.
 
 Afterwards, you should have a `result` symlink containing a folder `Zig.novaextension`.
 Open this folder in a new window to test the extension.
