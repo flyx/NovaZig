@@ -33,6 +33,7 @@
         /usr/bin/clang -c $BUILD_FLAGS -o parser.o src/parser.c
         echo "linking"
         /usr/bin/clang $LDFLAGS $LINKSHARED parser.o -o libtree-sitter-zig.dylib
+        /usr/bin/codesign -s - libtree-sitter-zig.dylib
       '';
       installPhase = ''
         cp libtree-sitter-zig.dylib $out
