@@ -46,24 +46,51 @@
       license     = nixpkgs.lib.licenses.mit;
       maintainers = [ "Felix Krause" ];
     };
-    cfgPath     = isWorkspace: name: ("org.flyx.zig." + name + (if isWorkspace then "" else ".default"));
-    zlsSettings = isWorkspace: {
-      title       = "Language Server";
+    cfgSection = {basePath, description, items, ...}@args: isWorkspace: {
+      children = builtins.map (
+        item: {
+          key = basePath + "." + item.id + (if isWorkspace then "" else ".default");
+        } // (builtins.removeAttrs item [ "id" "default" ]) // (if isWorkspace then {} else {
+          inherit (item) default;
+        })
+      ) items;
       description = if isWorkspace then
-        "Path to ZLS language server (if set, overrides default)"
-      else
-        "Default settings for the ZLS language server (may be overridden per project)";
-      type     = "section";
-      children = [
-        ({
-          key     = cfgPath isWorkspace "zls.path";
-          title   = "Path to ZLS";
-          type    = "path";
-        } // (if isWorkspace then {} else {
-          default = "zls";
-        }))
-      ];
-    };
+        (description + " (if set, overrides default)")
+      else (description + " (may be overridden per workspace)");
+      type = "section";
+    } // (builtins.removeAttrs args [ "basePath" "items" ]);
+    configItems = isWorkspace: [
+      (cfgSection {
+        basePath    = "org.flyx.zig";
+        description = "Settings for the Zig compiler";
+        items       = [
+          {
+            id      = "path";
+            title   = "Path to the Zig compiler";
+            type    = "path";
+            default = "zig";
+          }
+          {
+            id      = "fmt";
+            title   = "Format on Save";
+            type    = "boolean";
+            default = false;
+          }
+        ];
+      } isWorkspace)
+      (cfgSection {
+        basePath    = "org.flyx.zig.zls";
+        description = "Settings for the ZLS lanugage server";
+        items       = [
+          {
+            id      = "path";
+            title   = "Path to ZLS";
+            type    = "path";
+            default = "zls";
+          }
+        ];
+      } isWorkspace)
+    ];
   in {
     defaultPackage = pkgs.stdenv.mkDerivation {
       pname   = "Zig.novaextension";
@@ -75,9 +102,9 @@
         name             = "zig";
         organization     = "Felix Krause";
         description      = meta.description;
-        categories       = [ "languages" ];
-        config           = [ (zlsSettings false) ];
-        configWorkspace  = [ (zlsSettings true) ];
+        categories       = [ "languages" "commands" "completions" ];
+        config           = configItems false;
+        configWorkspace  = configItems true;
         main             = "main.js";
         bugs             = "https://github.com/flyx/NovaZig/issues";
         repository       = "https://github.com/flyx/NovaZig";
@@ -88,8 +115,17 @@
           "onWorkspaceContains:*.zig"
         ];
         entitlements = {
-          process = true;
+          process    = true;
+          filesystem = "readonly";
         };
+        commands.editor = [
+          {
+            title    = "Format Zig File";
+            command  = "org.flyx.zig.command.fmt";
+            when     = "editorHasFocus && editorSyntax == 'zig'";
+            shortcut = "opt-shift-F";
+          }
+        ];
       };
       buildInputs = with pkgs; [ gnused librsvg ];
     installPhase = ''
