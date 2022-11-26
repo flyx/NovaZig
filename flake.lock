@@ -18,11 +18,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1666867875,
-        "narHash": "sha256-3nD7iQXd/J6KjkT8IjozTuA5p8qjiLKTxvOUmH+AzNM=",
+        "lastModified": 1669378442,
+        "narHash": "sha256-nm+4PN0A4SnV0SzEchxrMyKPvI3Ld/aoom4PnHeHucs=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "c132d0837dfb9035701dcd8fc91786c605c855c3",
+        "rev": "0faaf0a9bb6dedb69bfd43ac06fb27fadc476c51",
         "type": "github"
       },
       "original": {
@@ -35,32 +35,51 @@
     "nova": {
       "flake": false,
       "locked": {
-        "narHash": "sha256-+Fyalty0qmN/sipAtavW5Z5bXEef4YBzNUHrzwxVGoU=",
+        "narHash": "sha256-y9PPIABEp0rhaP2KkrYO3aEpVSCvA6L2V2dBuzDoabc=",
         "type": "tarball",
-        "url": "https://download.panic.com/nova/Nova%2010.zip"
+        "url": "https://download.panic.com/nova/Nova%2010.3.zip"
       },
       "original": {
         "type": "tarball",
-        "url": "https://download.panic.com/nova/Nova%2010.zip"
+        "url": "https://download.panic.com/nova/Nova%2010.3.zip"
+      }
+    },
+    "nova-utils": {
+      "inputs": {
+        "nova": "nova",
+        "utils": "utils"
+      },
+      "locked": {
+        "lastModified": 1669459739,
+        "narHash": "sha256-D4aT8BkseKLPWpiMt6+Y46um/W2LE8levDXbHqHdIng=",
+        "owner": "flyx",
+        "repo": "nova-extension-utils",
+        "rev": "7bafd427298b40a7f0365a477ded1e765a550a12",
+        "type": "github"
+      },
+      "original": {
+        "owner": "flyx",
+        "repo": "nova-extension-utils",
+        "type": "github"
       }
     },
     "root": {
       "inputs": {
         "logo": "logo",
         "nixpkgs": "nixpkgs",
-        "nova": "nova",
+        "nova-utils": "nova-utils",
         "tree-sitter-zig": "tree-sitter-zig",
-        "utils": "utils"
+        "utils": "utils_2"
       }
     },
     "tree-sitter-zig": {
       "flake": false,
       "locked": {
-        "lastModified": 1665737528,
-        "narHash": "sha256-WLfecfqwCNh/IPPfmZ55XgsY6cLv62ad0Xhh9pUW3nw=",
+        "lastModified": 1667355439,
+        "narHash": "sha256-vdfXC9PUyv4YynfrKi7M708zFbNIV6AERBd63/EAp1A=",
         "owner": "maxxnino",
         "repo": "tree-sitter-zig",
-        "rev": "b1803f2a665d228f968a831eac4fcc07a377c7bc",
+        "rev": "d90d38d28ce8cc27bfea8b4e0c75211e9e2398ca",
         "type": "github"
       },
       "original": {
@@ -71,11 +90,26 @@
     },
     "utils": {
       "locked": {
-        "lastModified": 1659877975,
-        "narHash": "sha256-zllb8aq3YO3h8B/U0/J1WBgAL8EX5yWf5pMj3G0NAmc=",
+        "lastModified": 1667395993,
+        "narHash": "sha256-nuEHfE/LcWyuSWnS8t12N1wc105Qtau+/OdUAjtQ0rA=",
         "owner": "numtide",
         "repo": "flake-utils",
-        "rev": "c0e246b9b83f637f4681389ecabcb2681b4f3af0",
+        "rev": "5aed5285a952e0b949eb3ba02c12fa4fcfef535f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
+    "utils_2": {
+      "locked": {
+        "lastModified": 1667395993,
+        "narHash": "sha256-nuEHfE/LcWyuSWnS8t12N1wc105Qtau+/OdUAjtQ0rA=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "5aed5285a952e0b949eb3ba02c12fa4fcfef535f",
         "type": "github"
       },
       "original": {
