@@ -45,6 +45,13 @@
         <expression>^(zig)$</expression>
     </injection>
     
+    <identifiers>
+        <characters>
+            <alphanumeric />
+            <string>.</string>
+        </characters>
+    </identifiers>
+    
     <tree-sitter>
         <highlights />
         <symbols />
